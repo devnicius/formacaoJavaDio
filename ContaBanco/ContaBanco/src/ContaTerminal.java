@@ -1,6 +1,8 @@
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Scanner;
+import java.text.DecimalFormatSymbols;
+import java.text.DecimalFormat;
+import java.util.Locale;
 
 public class ContaTerminal {
     public static String nomeCliente;
@@ -9,6 +11,10 @@ public class ContaTerminal {
     public static BigDecimal saldo;
 
     public static void main(String[] args) throws Exception {
+        Locale.setDefault(Locale.US);
+        DecimalFormatSymbols decimalFormatSymbols = DecimalFormatSymbols.getInstance();
+        decimalFormatSymbols.setDecimalSeparator('.');
+        
         Scanner resposta = new Scanner(System.in);
 
         do {
@@ -22,8 +28,8 @@ public class ContaTerminal {
             numero = resposta.nextInt();
 
             System.out.println("Insira o valor do seu primeiro depósito:");
-            saldo = new BigDecimal(resposta.nextBigDecimal().toString().replace(".", ","));
-
+            saldo = new BigDecimal(new DecimalFormat("0.00", decimalFormatSymbols).format(resposta.nextBigDecimal()));
+            resposta.close();
         } while (nomeCliente.isEmpty() && agencia.isEmpty() && numero.equals(null) && saldo.equals(null));
 
         System.out.println("Conta criada!");
